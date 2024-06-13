@@ -30,22 +30,35 @@ const content = () => {
   const [deleteitems, setdeleteitem] = useState<object>([]);
   const [undoBolean, setundoBolean] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const removeDuplicates = (array:BaseObject) => {
-    return [...new Set(array)];
+  const removeDuplicates = (array: object) => {
+    const seen = new Set();
+    return array.filter(item => {
+      const value = item['id'];
+      if (seen.has(value)) {
+        return false;
+      }
+      seen.add(value);
+      return true;
+    });
   };
   const deleteItem = (id: any) => {
     try {
-     let remove =  removeDuplicates([...deleteitems,id])
-     setdeleteitem(remove)
+      setdeleteitem([]);
+      let newDeleteItems = [...deleteitems, id];
+      let remove = removeDuplicates(newDeleteItems);
+      setdeleteitem(remove);
       let filterArray = state?.filter((item: any) => item.id !== id?.id);
       console.log(filterArray);
-      setundoBolean(true);
 
+      setundoBolean(true);
       dispatch(userCart(filterArray));
     } catch (e) {
       console.log(e);
       setundoBolean(false);
     }
+    setTimeout(()=>{
+      setundoBolean(false)
+    },10000)
   };
 
   const increase = (ite: {id: number; quan: number}) => {
@@ -57,7 +70,7 @@ const content = () => {
 
   const decrese = (ite: {id: number; quan: number}) => {
     const updatedState = state.map((item: any) =>
-      item.id === ite.id ? {...item, quan: item.quan - 1} : item,
+      item.id === ite.id ? {...item, quan: ite?.quan==0?0:item.quan - 1} : item,
     );
 
     dispatch(userCart(updatedState));
@@ -65,8 +78,12 @@ const content = () => {
 
   const undo = () => {
     try {
-      dispatch(userCart([...state, ...deleteitems]));
+      let dummy = [...state,...deleteitems]
+      let remove = removeDuplicates(dummy)
+      console.log(remove)
+      dispatch(userCart([...remove]));
       setundoBolean(false);
+      setdeleteitem([])
     } catch (e) {
       console.log(e);
       setundoBolean(false);
@@ -115,15 +132,17 @@ const content = () => {
   };
   return (
     <View style={styles.main}>
-      {
-        state?.length>0?<FlatList
-        data={state}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => index}
-      />:<View style = {{flex:1,justifyContent:"center"}}>
-        <TypoGraphy style={styles.noItem}>No item Added</TypoGraphy>
+      {state?.length > 0 ? (
+        <FlatList
+          data={state}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index}
+        />
+      ) : (
+        <View style={{flex: 1, justifyContent: 'center'}}>
+          <TypoGraphy style={styles.noItem}>No item Added</TypoGraphy>
         </View>
-      }
+      )}
       <ToastShow
         visible={undoBolean}
         text={'you can deleted your item only 10 seoncd inside undo'}
@@ -193,9 +212,9 @@ const styles = StyleSheet.create({
 
     borderRadius: 5,
   },
-  noItem:{
-    color:'#fff',
-    textAlign:"center",
-    fontSize:20
-  }
+  noItem: {
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: 20,
+  },
 });

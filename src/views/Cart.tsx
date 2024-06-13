@@ -115,11 +115,15 @@ const content = () => {
   };
   return (
     <View style={styles.main}>
-      <FlatList
+      {
+        state?.length>0?<FlatList
         data={state}
         renderItem={renderItem}
         keyExtractor={(item, index) => index}
-      />
+      />:<View style = {{flex:1,justifyContent:"center"}}>
+        <TypoGraphy style={styles.noItem}>No item Added</TypoGraphy>
+        </View>
+      }
       <ToastShow
         visible={undoBolean}
         text={'you can deleted your item only 10 seoncd inside undo'}
@@ -189,4 +193,9 @@ const styles = StyleSheet.create({
 
     borderRadius: 5,
   },
+  noItem:{
+    color:'#fff',
+    textAlign:"center",
+    fontSize:20
+  }
 });

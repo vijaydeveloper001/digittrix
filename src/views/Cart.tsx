@@ -1,5 +1,5 @@
 import {FlatList, Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect,useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import RenderImage from '../Component/RenderImage';
 import TypoGraphy from '../Component/TypoGraphy';
 import Button from '../Component/Button';
@@ -20,28 +20,26 @@ const Cart = ({navigation}: Props) => {
       back={true}
       children={content()}
       navigation={navigation}
-     
     />
   );
 };
 
 const content = () => {
   const state = useSelector(state => state?.cartdata?.data);
-  const [deleteitems, setdeleteitem] = useState<object>({})
-  const [undoBolean, setundoBolean] = useState<boolean>(false)
+  const [deleteitems, setdeleteitem] = useState<object>({});
+  const [undoBolean, setundoBolean] = useState<boolean>(false);
   const dispatch = useDispatch();
   const deleteItem = (id: any) => {
     try {
-      setdeleteitem(id)
+      setdeleteitem(id);
       let filterArray = state?.filter((item: any) => item.id !== id?.id);
       console.log(filterArray);
-      setundoBolean(true)
+      setundoBolean(true);
 
       dispatch(userCart(filterArray));
-      
     } catch (e) {
       console.log(e);
-      setundoBolean(false)
+      setundoBolean(false);
     }
   };
 
@@ -60,17 +58,15 @@ const content = () => {
     dispatch(userCart(updatedState));
   };
 
-
-  const undo = () =>{
-    try{
-      dispatch(userCart([...state,{...deleteitems}]))
-      setundoBolean(false)
-    }catch(e){
-      console.log(e)
-      setundoBolean(false)
-
+  const undo = () => {
+    try {
+      dispatch(userCart([...state, {...deleteitems}]));
+      setundoBolean(false);
+    } catch (e) {
+      console.log(e);
+      setundoBolean(false);
     }
-  }
+  };
 
   const renderItem = ({item}: any) => {
     // console.log(item)
@@ -81,7 +77,9 @@ const content = () => {
           <TypoGraphy style={styles.textConItem}>
             {item?.first_name + item?.last_name}
           </TypoGraphy>
-          <TypoGraphy style={styles.emailText} numberOfLines={1}>{item?.email}</TypoGraphy>
+          <TypoGraphy style={styles.emailText} numberOfLines={1}>
+            {item?.email}
+          </TypoGraphy>
           <TypoGraphy style={styles.emailText}>{item?.quan}</TypoGraphy>
         </View>
         <View style={styles.btnStyle}>
@@ -117,7 +115,11 @@ const content = () => {
         renderItem={renderItem}
         keyExtractor={(item, index) => index}
       />
-     <ToastShow visible={undoBolean} text = {'you can deleted your item only 10 seoncd inside undo'} onPress={()=>undo()}/>
+      <ToastShow
+        visible={undoBolean}
+        text={'you can deleted your item only 10 seoncd inside undo'}
+        onPress={() => undo()}
+      />
     </View>
   );
 };

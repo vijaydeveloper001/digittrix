@@ -75,11 +75,6 @@ const content = () => {
           <TypoGraphy style={styles.emailText}>{item?.email}</TypoGraphy>
         </View>
         <View style={styles.btnStyle}>
-          {/* <RenderImage
-            image={images.close}
-            style={styles.closeImage}
-            tintColor={'#fff'}
-          /> */}
           <Button
             text={'Add cart'}
             style={styles.btn}
@@ -154,7 +149,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 0,
     borderRadius: 10,
-    marginTop:0,
+    marginTop: 0,
   },
   btnStyle: {
     height: '90%',

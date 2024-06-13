@@ -8,6 +8,7 @@ import {images} from '../assets/images';
 import AppBaseCompoent from '../Component/AppBaseCompoent';
 import {userCart} from '../redux/reducers/cartreducers';
 import ToastShow from '../Component/ToastShow';
+import BaseObject from 'ol/Object';
 
 type Props = {
   navigation: any;
@@ -26,12 +27,16 @@ const Cart = ({navigation}: Props) => {
 
 const content = () => {
   const state = useSelector(state => state?.cartdata?.data);
-  const [deleteitems, setdeleteitem] = useState<object>({});
+  const [deleteitems, setdeleteitem] = useState<object>([]);
   const [undoBolean, setundoBolean] = useState<boolean>(false);
   const dispatch = useDispatch();
+  const removeDuplicates = (array:BaseObject) => {
+    return [...new Set(array)];
+  };
   const deleteItem = (id: any) => {
     try {
-      setdeleteitem(id);
+     let remove =  removeDuplicates([...deleteitems,id])
+     setdeleteitem(remove)
       let filterArray = state?.filter((item: any) => item.id !== id?.id);
       console.log(filterArray);
       setundoBolean(true);
@@ -60,7 +65,7 @@ const content = () => {
 
   const undo = () => {
     try {
-      dispatch(userCart([...state, {...deleteitems}]));
+      dispatch(userCart([...state, ...deleteitems]));
       setundoBolean(false);
     } catch (e) {
       console.log(e);

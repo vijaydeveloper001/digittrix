@@ -20,6 +20,7 @@ const Cart = ({navigation}: Props) => {
       back={true}
       children={content()}
       navigation={navigation}
+     
     />
   );
 };
@@ -80,7 +81,7 @@ const content = () => {
           <TypoGraphy style={styles.textConItem}>
             {item?.first_name + item?.last_name}
           </TypoGraphy>
-          <TypoGraphy style={styles.emailText}>{item?.email}</TypoGraphy>
+          <TypoGraphy style={styles.emailText} numberOfLines={1}>{item?.email}</TypoGraphy>
           <TypoGraphy style={styles.emailText}>{item?.quan}</TypoGraphy>
         </View>
         <View style={styles.btnStyle}>
@@ -136,7 +137,6 @@ const styles = StyleSheet.create({
     marginBottom: 70,
     borderRadius: 10,
     padding: 5,
-    marginHorizontal: 10,
   },
   image: {
     width: 100,

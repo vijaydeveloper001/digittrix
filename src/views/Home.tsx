@@ -29,45 +29,8 @@ const content = () => {
   const [data, setdata] = useState<object>([]);
   const [page, setpage] = useState(1);
   const store = useSelector((state: any) => state);
-  // const [totalPage, settotalPage] = useState();
   const dispatch = useDispatch();
   useEffect(() => {
-    // const fetchData = async () => {
-    //   try {
-    //     if (page > 1) {
-    //       let response = await useFetch(
-    //         `https://reqres.in/api/users?page=${page}`,
-    //         'GET',
-    //       );
-    //       console.log(response);
-
-    //       setdata((prev: any) => prev.concat(response.data));
-    //       data?.map(item => {
-    //         console.log(item,'dsgg')
-    //         return {...item, quan: 1};
-    //       });
-    //       // dispatch(storedata(quan));
-    //     } else {
-    //       let response = await useFetch(
-    //         `https://reqres.in/api/users?page=${page}`,
-    //         'GET',
-    //       );
-    //       // console.log(response);
-
-    //       // setdata(response?.data);
-    //       // dispatch(storedata([...response.data]));
-    //       let quan = response?.data?.map(item => {
-    //         return {...item, quan: 1};
-    //       });
-    //       setdata(quan);
-    //       // settotalPage(response.page);
-    //       dispatch(storedata(quan));
-    //     }
-    //   } catch (e) {
-    //     console.log(e);
-    //   }
-    // };
-
     const fetchData = async () => {
       try {
         let response = await useFetch(
@@ -95,8 +58,7 @@ const content = () => {
     fetchData();
   }, [page]);
 
-  const storeItem = ({item}: object) => {
-    console.log(item);
+  const storeItem = ({item}: any) => {
     if (!store?.cartdata?.data?.includes(item)) {
       dispatch(userCart([...store?.cartdata?.data, item]));
     }
@@ -113,11 +75,11 @@ const content = () => {
           <TypoGraphy style={styles.emailText}>{item?.email}</TypoGraphy>
         </View>
         <View style={styles.btnStyle}>
-          <RenderImage
+          {/* <RenderImage
             image={images.close}
             style={styles.closeImage}
             tintColor={'#fff'}
-          />
+          /> */}
           <Button
             text={'Add cart'}
             style={styles.btn}
@@ -139,9 +101,10 @@ const content = () => {
       <FlatList
         data={data}
         renderItem={renderItem}
-        keyExtractor={(item, index) => index}
+        keyExtractor={(item: object, index: number) => index}
         onEndReached={handleEndReached}
         onEndReachedThreshold={0.1}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
@@ -191,10 +154,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 0,
     borderRadius: 10,
+    marginTop:0,
   },
   btnStyle: {
     height: '90%',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     alignItems: 'flex-end',
   },
 });

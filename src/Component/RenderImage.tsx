@@ -5,7 +5,7 @@ type Props = {
   image: any;
   style?: object;
   rest?: object;
-  onPress?: () => void; // Fixed typo: onpress -> onPress
+  onPress?: () => void;
 };
 
 const RenderImage = ({image, style, onPress, ...rest}: Props) => {

@@ -1,5 +1,5 @@
-import {FlatList, Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {FlatList, StyleSheet, View} from 'react-native';
+import React, {useState} from 'react';
 import RenderImage from '../Component/RenderImage';
 import TypoGraphy from '../Component/TypoGraphy';
 import Button from '../Component/Button';
@@ -8,7 +8,6 @@ import {images} from '../assets/images';
 import AppBaseCompoent from '../Component/AppBaseCompoent';
 import {userCart} from '../redux/reducers/cartreducers';
 import ToastShow from '../Component/ToastShow';
-import BaseObject from 'ol/Object';
 
 type Props = {
   navigation: any;
@@ -26,13 +25,13 @@ const Cart = ({navigation}: Props) => {
 };
 
 const content = () => {
-  const state = useSelector(state => state?.cartdata?.data);
-  const [deleteitems, setdeleteitem] = useState<object>([]);
+  const state = useSelector((state: any) => state?.cartdata?.data);
+  const [deleteitems, setdeleteitem] = useState<any>([]);
   const [undoBolean, setundoBolean] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const removeDuplicates = (array: object) => {
+  const removeDuplicates = (array: any) => {
     const seen = new Set();
-    return array.filter(item => {
+    return array?.filter((item: any) => {
       const value = item['id'];
       if (seen.has(value)) {
         return false;
@@ -44,7 +43,7 @@ const content = () => {
   const deleteItem = (id: any) => {
     try {
       setdeleteitem([]);
-      let newDeleteItems = [...deleteitems, id];
+      let newDeleteItems: any = [...deleteitems, id];
       let remove = removeDuplicates(newDeleteItems);
       setdeleteitem(remove);
       let filterArray = state?.filter((item: any) => item.id !== id?.id);
@@ -56,9 +55,10 @@ const content = () => {
       console.log(e);
       setundoBolean(false);
     }
-    setTimeout(()=>{
-      setundoBolean(false)
-    },10000)
+    setTimeout(() => {
+      setundoBolean(false);
+      setdeleteitem([]);
+    }, 10000);
   };
 
   const increase = (ite: {id: number; quan: number}) => {
@@ -69,21 +69,22 @@ const content = () => {
   };
 
   const decrese = (ite: {id: number; quan: number}) => {
-    const updatedState = state.map((item: any) =>
-      item.id === ite.id ? {...item, quan: ite?.quan==0?0:item.quan - 1} : item,
+    let updatedState = state.map((item: any) =>
+      item.id === ite.id
+        ? {...item, quan: item.quan > 0 ? item.quan - 1 : 0}
+        : item,
     );
-
+    updatedState = updatedState?.filter((item: any) => item.quan !== 0);
     dispatch(userCart(updatedState));
   };
 
   const undo = () => {
     try {
-      let dummy = [...state,...deleteitems]
-      let remove = removeDuplicates(dummy)
-      console.log(remove)
+      let dummy: any = [...state, ...deleteitems];
+      let remove: any = removeDuplicates(dummy);
       dispatch(userCart([...remove]));
       setundoBolean(false);
-      setdeleteitem([])
+      setdeleteitem([]);
     } catch (e) {
       console.log(e);
       setundoBolean(false);

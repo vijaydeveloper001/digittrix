@@ -1,5 +1,5 @@
 import {Pressable, StatusBar, StyleSheet, Text, View} from 'react-native';
-import React, {Children} from 'react';
+import React from 'react';
 import RenderImage from './RenderImage';
 import {images} from '../assets/images';
 import TypoGraphy from './TypoGraphy';

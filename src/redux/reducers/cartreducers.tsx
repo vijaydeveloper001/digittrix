@@ -17,7 +17,6 @@ const userCartData = createSlice({
     userCart(state, action: PayloadAction<userCart>) {
       state.data = action.payload;
     },
-    // Define a reducer to clear user data
   },
 });
 

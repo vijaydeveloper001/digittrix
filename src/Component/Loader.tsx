@@ -8,7 +8,11 @@ import {
   Modal,
 } from 'react-native';
 
-const Loader = ({Loading=false}) => {
+interface props{
+  Loading :boolean
+}
+
+const Loader = ({Loading=false}:props) => {
   return (
     // <View style={styles.loaderContainer}>
       <Modal visible = {Loading} transparent>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1079262856595",
+    "project_id": "digittrix-98a5c",
+    "storage_bucket": "digittrix-98a5c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1079262856595:android:e46d6113042aa18efd9466",
+        "android_client_info": {
+          "package_name": "com.digittrix"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVvhkpnV5xrCFoeMSUkRBaKbQyHtS4bu4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

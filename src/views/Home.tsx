@@ -29,12 +29,12 @@ const Home = ({navigation}: Props) => {
 const content = () => {
   const [data, setdata] = useState<object>([]);
   const [page, setpage] = useState(1);
-  const [loader, setloader] = useState<boolean>(false)
+  const [loader, setloader] = useState<boolean>(false);
   const store = useSelector((state: any) => state);
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchData = async () => {
-      setloader(true)
+      setloader(true);
       try {
         let response = await useFetch(
           `https://reqres.in/api/users?page=${page}`,
@@ -49,18 +49,16 @@ const content = () => {
 
         if (page > 1) {
           setdata((prev: any) => [...prev, ...updatedData]);
-      setloader(false)
-
+          setloader(false);
         } else {
           setdata(updatedData);
-      setloader(false)
-
+          setloader(false);
         }
         dispatch(storedata(updatedData));
-        setloader(false)
+        setloader(false);
       } catch (e) {
         console.log(e);
-        setloader(false)
+        setloader(false);
       }
     };
 
@@ -102,7 +100,7 @@ const content = () => {
 
   return (
     <View style={styles.main}>
-      <Loader Loading={loader}/>
+      <Loader Loading={loader} />
       <FlatList
         data={data}
         renderItem={renderItem}
